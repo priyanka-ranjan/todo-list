@@ -1,9 +1,4 @@
-<html>
-<head>
-    <title> Welcome Page </title>
-</head>
-<body>
-Welcome to in28minutes!
-Name: ${name}
-</body>
-</html>
+<div class="container">
+    <h1>Welcome ${name}</h1>
+    <a href="todo">Manage</a> your todos
+</div>
