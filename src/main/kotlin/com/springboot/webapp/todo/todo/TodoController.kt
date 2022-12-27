@@ -6,6 +6,7 @@ import org.springframework.ui.ModelMap
 import org.springframework.validation.BindingResult
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.SessionAttributes
 import java.time.LocalDate
 
@@ -53,16 +54,27 @@ class TodoController (
         return "redirect:todo"
     }
 
-//    @RequestMapping(value = ["add-todo"], method = [RequestMethod.POST])
-//    fun addNewTodo(model: ModelMap, todo: @Valid Todo?, result: BindingResult): String? {
-//        if (result.hasErrors()) {
-//            return "todo"
-//        }
-//        val username = model["name"] as String?
-//        todoService.addTodo(
-//            username, todo!!.description,
-//            LocalDate.now().plusYears(1), false
-//        )
-//        return "redirect:list-todos"
-//    }
+    @RequestMapping("delete-todo")
+    fun deleteTodo(@RequestParam id: Int): String {
+        todoService.deleteById(id)
+        return "redirect:todo"
+    }
+
+    @RequestMapping(value = ["update-todo"], method = [RequestMethod.GET])
+    fun showUpdateTodoPage(@RequestParam id: Int, model: ModelMap): String? {
+        val todo = todoService.findById(id)
+        model.addAttribute("todo", todo)
+        return "add-todo"
+    }
+
+    @RequestMapping("update-todo", method = [RequestMethod.POST])
+    fun showUpdateTodoPage(@RequestParam id: Int, @Valid todo:Todo, model: ModelMap, result: BindingResult) : String {
+
+        if (result.hasErrors()) {
+            return "add-todo"
+        }
+
+        todoService.updateTodo(todo)
+        return "redirect:todo"
+    }
 }

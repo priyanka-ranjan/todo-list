@@ -8,7 +8,7 @@ data class Todo(
     val username: String?,
 
     @field:Size(min = 10, message = "Enter at least 10 characters")
-    val description: String,
+    var description: String,
     val targetDate: LocalDate?,
     val done: Boolean = false
 )

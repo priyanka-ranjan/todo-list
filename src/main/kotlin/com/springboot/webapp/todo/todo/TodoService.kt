@@ -31,4 +31,17 @@ class TodoService {
         list.add(todo)
     }
 
+    fun deleteById(id: Int) {
+        list.removeIf { it.id == id }
+    }
+
+    fun findById(id: Int): Todo {
+        return  list.first { it.id == id }
+    }
+
+    fun updateTodo(newtodo: Todo) {
+        val todo = findById(newtodo.id)
+        todo.description = newtodo.description
+    }
+
 }
