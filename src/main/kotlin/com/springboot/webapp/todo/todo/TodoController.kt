@@ -1,6 +1,7 @@
 package com.springboot.webapp.todo.todo
 
 import jakarta.validation.Valid
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Controller
 import org.springframework.ui.ModelMap
 import org.springframework.validation.BindingResult
@@ -19,7 +20,7 @@ class TodoController (
 
     @RequestMapping("/todo")
     fun goToWelcomePage(model: ModelMap): String {
-        val todoList = todoService.findByUsername("username")
+        val todoList = todoService.findByUsername(getLoggedinUsername())
         model.addAttribute("todos", todoList)
         return "todo"
     }
@@ -29,7 +30,7 @@ class TodoController (
     fun showNewTodoPage(model: ModelMap): String? {
         val todo = Todo(
             0,
-            model["name"] as String? ?: "",
+            getLoggedinUsername(),
             "Default Description",
             LocalDate.now().plusYears(1),
             false)
@@ -44,7 +45,7 @@ class TodoController (
             return "redirect:add-todo"
         }
 
-        val username = model["name"] as String? ?: ""
+        val username = getLoggedinUsername()
         todoService.addTodo(
             username,
             todo.description,
@@ -76,5 +77,11 @@ class TodoController (
 
         todoService.updateTodo(todo)
         return "redirect:todo"
+    }
+
+    //    private fun getLoggedinUsername(model: ModelMap) = model["name"] as String? ?: ""
+    private fun getLoggedinUsername(): String {
+        val authentication = SecurityContextHolder.getContext().authentication
+        return authentication.name
     }
 }

@@ -1,4 +1,4 @@
-package com.springboot.webapp.todo.login
+package com.springboot.webapp.todo.welcome
 
 import org.springframework.stereotype.Service
 

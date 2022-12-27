@@ -1,16 +1,15 @@
-package com.springboot.webapp.todo.login
+package com.springboot.webapp.todo.welcome
 
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Controller
 import org.springframework.ui.ModelMap
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
-import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.SessionAttributes
-import java.time.LocalDate
 
 @Controller
 @SessionAttributes("name")
-class LoginController(
+class WelcomeController(
     val authenticationService: AuthenticationService) {
 
 //    companion object {
@@ -26,18 +25,14 @@ class LoginController(
         return "login"
     }**/
 
-    @RequestMapping(value = arrayOf("/login"), method = arrayOf(RequestMethod.GET))
-    fun loginJSP(): String {
-        return "login"
+    @RequestMapping(value = ["/"], method = [RequestMethod.GET])
+    fun welcomeJSP(model: ModelMap): String {
+        model.put("name", getLoggedinUsername())
+        return "welcome"
     }
 
-    @RequestMapping(value = arrayOf("/login"), method = arrayOf(RequestMethod.POST))
-    fun goToWelcomePage(@RequestParam name:String, @RequestParam password:String, model:ModelMap): String {
-        model.put("name", name)
-        if (authenticationService.authenticate(name,password)) {
-            return "welcome"
-        }
-
-        return "login"
+    fun getLoggedinUsername(): String {
+        val authentication = SecurityContextHolder.getContext().authentication
+        return authentication.name
     }
 }

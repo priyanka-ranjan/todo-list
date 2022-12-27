@@ -17,7 +17,7 @@ class TodoService {
     }
 
     fun findByUsername(username:String): Array<Todo> {
-        return list.toTypedArray()
+        return list.filter { it.username == username }.toTypedArray()
     }
 
     fun addTodo(username: String?, description: String?, targetDate: LocalDate?, done: Boolean) {
