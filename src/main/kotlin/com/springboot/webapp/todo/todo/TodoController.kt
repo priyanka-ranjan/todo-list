@@ -46,12 +46,8 @@ class TodoController (
         }
 
         val username = getLoggedinUsername()
-        todoService.addTodo(
-            username,
-            todo.description,
-            LocalDate.now().plusYears(1),
-            false
-        )
+        todo.username = username
+        todoService.addTodo(todo)
         return "redirect:todo"
     }
 
