@@ -2,8 +2,6 @@ package com.springboot.webapp.todo.todo
 
 import com.springboot.webapp.todo.repository.TodoRepository
 import org.springframework.stereotype.Service
-import java.time.LocalDate
-import kotlin.jvm.optionals.getOrNull
 
 @Service
 class TodoService(

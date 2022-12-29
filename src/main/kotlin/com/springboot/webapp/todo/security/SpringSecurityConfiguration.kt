@@ -4,7 +4,6 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.Customizer
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
-import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer.AuthorizationManagerRequestMatcherRegistry
 import org.springframework.security.core.userdetails.User
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
@@ -14,12 +13,12 @@ import org.springframework.security.web.SecurityFilterChain
 
 
 @Configuration
-class SpringSecurityConfiguration {
+open class SpringSecurityConfiguration {
     //LDAP or Database
     //In memory
 
     @Bean
-    fun createUserDetailsManager(): InMemoryUserDetailsManager {
+    open fun createUserDetailsManager(): InMemoryUserDetailsManager {
         val userDetails1 = createNewUser("username1", "password")
         val userDetails2 = createNewUser("username2", "password")
 
@@ -40,13 +39,13 @@ class SpringSecurityConfiguration {
     }
 
     @Bean
-    fun passwordEncoder(): PasswordEncoder {
+    open fun passwordEncoder(): PasswordEncoder {
         return BCryptPasswordEncoder()
     }
 
     @Bean
     @Throws(Exception::class)
-    fun filterChain(http: HttpSecurity): SecurityFilterChain? {
+    open fun filterChain(http: HttpSecurity): SecurityFilterChain? {
         http.authorizeHttpRequests { auth ->
             auth.anyRequest().authenticated()
         }
